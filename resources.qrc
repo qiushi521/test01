@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res_file/turbidimeter_db.sql</file>
+    </qresource>
+</RCC>
