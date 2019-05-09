@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
+    <width>523</width>
     <height>415</height>
    </rect>
   </property>
@@ -28,18 +28,62 @@
         <widget class="QTextEdit" name="textEdit"/>
        </item>
        <item>
+        <widget class="QProgressBar" name="progressBar">
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnStartInstall">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border-color: rgb(0, 255, 0);</string>
+         </property>
+         <property name="text">
+          <string>自动安装配置</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QPushButton" name="btnStartInstall">
+          <widget class="QPushButton" name="btnUpdateDB">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border-color: rgb(170, 255, 0);</string>
+           </property>
            <property name="text">
-            <string>开始安装</string>
+            <string>升级数据库（不会清除原有数据）</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnCopyFiles">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border-color: rgb(255, 0, 0);</string>
+           </property>
            <property name="text">
-            <string>PushButton</string>
+            <string>构建数据库（将清除原有数据！）</string>
            </property>
           </widget>
          </item>
@@ -55,8 +99,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>584</width>
-     <height>23</height>
+     <width>523</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>

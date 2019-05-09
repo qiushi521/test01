@@ -32,9 +32,8 @@ CREATE TABLE `account_tbl` (
   `upassword` varbinary(200) NOT NULL,
   `ufingerprint` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`uid`),
-  UNIQUE KEY `uname` (`uname`),
-  UNIQUE KEY `unickname` (`unickname`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `uname` (`uname`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +42,7 @@ CREATE TABLE `account_tbl` (
 
 LOCK TABLES `account_tbl` WRITE;
 /*!40000 ALTER TABLE `account_tbl` DISABLE KEYS */;
-INSERT INTO `account_tbl` VALUES (1,'manager','默认管理员1','管理员1','init',1,'??|????????/?',NULL),(2,'checker','默认技术员','技术员','invalid',2,'fcb47c931c123f8781a4d4fae92ffd19',NULL),(3,'operator','默认实验员','某实验员','invalid',3,'??|????????/?',NULL);
+INSERT INTO `account_tbl` VALUES (1,'manager','默认管理员1','管理员1','init',1,'??????-?E???U??',''),(2,'checker','默认技术员','技术员','invalid',2,'?}.T????I??g?',''),(3,'operator','默认实验员','某实验员','invalid',3,'??????-?E???U??','');
 /*!40000 ALTER TABLE `account_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +64,7 @@ CREATE TABLE `arrange_setting_tbl` (
   `operator_uid` int(1) NOT NULL,
   `show_in_list` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`arrange_setting_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,8 +97,12 @@ CREATE TABLE `device_setting_tbl` (
   `stop_cond_duration` varchar(10) DEFAULT NULL,
   `stop_cond_maxabsorbancy` varchar(10) DEFAULT NULL,
   `stop_cond_minabsorbancy` varchar(10) DEFAULT NULL,
+  `smain_ver` varchar(24) NOT NULL,
+  `opt_ver` varchar(24) NOT NULL,
+  `heater_ver` varchar(24) NOT NULL,
+  `workstation_soft_ver` varchar(12) NOT NULL,
   PRIMARY KEY (`device_setting_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +111,7 @@ CREATE TABLE `device_setting_tbl` (
 
 LOCK TABLES `device_setting_tbl` WRITE;
 /*!40000 ALTER TABLE `device_setting_tbl` DISABLE KEYS */;
-INSERT INTO `device_setting_tbl` VALUES (1,'培养箱1','37','2','20','20','3','2','0','140','-1','-1');
+INSERT INTO `device_setting_tbl` VALUES (1,'培养箱1','37','2','20','20','3','2','0','140','-1','-1','','','','');
 /*!40000 ALTER TABLE `device_setting_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +131,7 @@ CREATE TABLE `group_tbl` (
   `method_3_privilage` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`gid`),
   UNIQUE KEY `gname` (`gname`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,17 +160,12 @@ CREATE TABLE `log_tbl` (
   `comment` varchar(100) DEFAULT NULL,
   `type` varchar(10) NOT NULL,
   PRIMARY KEY (`logid`)
-) ENGINE=InnoDB AUTO_INCREMENT=1519 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `log_tbl`
 --
-
-LOCK TABLES `log_tbl` WRITE;
-/*!40000 ALTER TABLE `log_tbl` DISABLE KEYS */;
-/*!40000 ALTER TABLE `log_tbl` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `meta_data`
@@ -177,17 +175,27 @@ DROP TABLE IF EXISTS `meta_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `meta_data` (
-  `mata_data_id` int(1) NOT NULL,
+  `meta_data_id` int(1) NOT NULL DEFAULT '0',
   `db_ver` varchar(20) NOT NULL,
+  `machine_code` varchar(50) NOT NULL,
   `last_date` date NOT NULL,
   `last_time` time(1) NOT NULL,
   `backup_type` int(1) NOT NULL,
   `backup_interval` int(1) NOT NULL,
   `backup_time` time(1) NOT NULL,
   `backup_target` varchar(512) NOT NULL,
+  `base_path` varchar(512) NOT NULL,
+  `approval_level` varchar(10) NOT NULL,
+  `mode` varchar(32) NOT NULL COMMENT '测试模式or正式模式（开启审计追踪)',
+  `log_level` varchar(32) NOT NULL COMMENT '日志等级',
   `back1` varchar(100) NOT NULL,
   `back2` varchar(100) NOT NULL,
-  PRIMARY KEY (`mata_data_id`)
+  `back3` varchar(100) NOT NULL,
+  `back4` varchar(100) NOT NULL,
+  `back5` varchar(100) NOT NULL,
+  `back6` varchar(100) NOT NULL,
+  `binded_box` varchar(128) CHARACTER SET utf8 NOT NULL DEFAULT '*',
+  PRIMARY KEY (`meta_data_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -197,7 +205,7 @@ CREATE TABLE `meta_data` (
 
 LOCK TABLES `meta_data` WRITE;
 /*!40000 ALTER TABLE `meta_data` DISABLE KEYS */;
-INSERT INTO `meta_data` VALUES (1,'1.0.0','2018-07-10','23:46:00.0',0,0,'00:00:00.0','0','1','1');
+INSERT INTO `meta_data` VALUES (1,'1.5','','2019-05-10','05:34:34.0',0,0,'00:00:00.0','','','3','factory','2','1','1','','','','','*');
 /*!40000 ALTER TABLE `meta_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +222,7 @@ CREATE TABLE `raw_data_tbl` (
   `timeseq` double DEFAULT NULL,
   `A_stream` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`rawdataid`)
-) ENGINE=InnoDB AUTO_INCREMENT=336 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,8 +247,9 @@ CREATE TABLE `report_format_tbl` (
   `report_format_name` varchar(20) NOT NULL,
   `level1_items` varchar(200) NOT NULL,
   `sample_info_items` varchar(400) NOT NULL,
+  `include_A_K` varchar(16) NOT NULL COMMENT 'true for false',
   PRIMARY KEY (`report_format_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,7 +258,7 @@ CREATE TABLE `report_format_tbl` (
 
 LOCK TABLES `report_format_tbl` WRITE;
 /*!40000 ALTER TABLE `report_format_tbl` DISABLE KEYS */;
-INSERT INTO `report_format_tbl` VALUES (1,'','sample_info,raw_data,reliability','sample_name,sample_sn,test_date,report_date');
+INSERT INTO `report_format_tbl` VALUES (1,'','sample_info,raw_data,reliability,device_info,curve_figure,process_result,method_info','sample_name,sample_sn,test_date,report_date','');
 /*!40000 ALTER TABLE `report_format_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,8 +288,8 @@ CREATE TABLE `report_tbl` (
   `report_path` varchar(512) DEFAULT NULL,
   `report_MD5` varchar(64) DEFAULT NULL,
   `report_status` varchar(64) DEFAULT NULL,
-  `report_remark` varchar(64) DEFAULT NULL,
-  `report_comment` varchar(64) DEFAULT NULL,
+  `report_remark` varchar(512) DEFAULT NULL,
+  `report_comment` varchar(512) DEFAULT NULL,
   `device_id` varchar(64) DEFAULT NULL,
   `operator_uid` int(5) NOT NULL,
   `checker_uid` int(1) NOT NULL,
@@ -288,8 +297,11 @@ CREATE TABLE `report_tbl` (
   `report_sel_time` varchar(20) NOT NULL,
   `report_format_id` int(1) unsigned NOT NULL,
   `end_style` varchar(20) NOT NULL,
+  `additional_info` varchar(512) DEFAULT NULL,
+  `check_date` varchar(10) NOT NULL,
+  `approve_date` varchar(10) NOT NULL,
   PRIMARY KEY (`rptid`)
-) ENGINE=InnoDB AUTO_INCREMENT=394 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -298,7 +310,7 @@ CREATE TABLE `report_tbl` (
 
 LOCK TABLES `report_tbl` WRITE;
 /*!40000 ALTER TABLE `report_tbl` DISABLE KEYS */;
-INSERT INTO `report_tbl` VALUES (1,'','示例','2018-06-18','红霉素试验','14:00:00.0','0',1,1,'',0,'1','1',1,1,'','','4','','','1',1,3,2,'0',1,'');
+INSERT INTO `report_tbl` VALUES (1,'','示例','2018-06-18','红霉素试验','14:00:00.0','0',1,1,'',0,'1','1',1,1,'','','4','','','1',3,2,1,'0',1,'',NULL,'','');
 /*!40000 ALTER TABLE `report_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,8 +342,11 @@ CREATE TABLE `test_info_tbl` (
   `operator_uid` int(10) NOT NULL,
   `checker_uid` int(10) DEFAULT NULL,
   `manager_uid` int(10) DEFAULT NULL,
+  `additional_info1` varchar(128) DEFAULT NULL,
+  `additional_info2` varchar(128) DEFAULT NULL,
+  `additional_info3` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`testinfoid`)
-) ENGINE=InnoDB AUTO_INCREMENT=400 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -340,7 +355,7 @@ CREATE TABLE `test_info_tbl` (
 
 LOCK TABLES `test_info_tbl` WRITE;
 /*!40000 ALTER TABLE `test_info_tbl` DISABLE KEYS */;
-INSERT INTO `test_info_tbl` VALUES (1,'红霉素','T10480248','分类',1,'规格','盒','某制药厂','先驱威锋','出厂检验','CP2015','2020-06-17',1,25,45,'2014-07-01','2014-07-02',0,0,0);
+INSERT INTO `test_info_tbl` VALUES (1,'红霉素','T10480248','分类',1,'规格','盒','某制药厂','先驱威锋','出厂检验','CP2015','2020-06-17',1,25,45,'2014-07-01','2014-07-02',0,0,0,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `test_info_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -361,7 +376,7 @@ CREATE TABLE `test_paramter_tbl` (
   `con_init` double DEFAULT NULL,
   `con_center` double DEFAULT NULL,
   PRIMARY KEY (`testparameterid`)
-) ENGINE=InnoDB AUTO_INCREMENT=396 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,24 +398,20 @@ DROP TABLE IF EXISTS `test_shortcut_tbl`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test_shortcut_tbl` (
   `test_shortcut_id` int(8) unsigned NOT NULL AUTO_INCREMENT,
-  `test_shortcut_name` varchar(50) NOT NULL,
+  `test_shortcut_name` varchar(160) NOT NULL,
   `sample_batch_num` int(1) unsigned NOT NULL DEFAULT '1',
   `report_id_array` varchar(50) NOT NULL,
   `device_setting_id` int(1) NOT NULL,
   `operator_uid` int(1) NOT NULL,
   `show_in_list` int(1) NOT NULL,
   PRIMARY KEY (`test_shortcut_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `test_shortcut_tbl`
 --
 
-LOCK TABLES `test_shortcut_tbl` WRITE;
-/*!40000 ALTER TABLE `test_shortcut_tbl` DISABLE KEYS */;
-/*!40000 ALTER TABLE `test_shortcut_tbl` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `twomeasure_result_tbl`
@@ -458,4 +469,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-11  0:12:20
+-- Dump completed on 2019-05-10  6:08:23
