@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_cmdText[IT_WAMP] 		= "wampserver2.5-64b.exe /silent";
 	m_cmdText[IT_START_WAMP]= "start /b C:\\wamp\\wampmanager.exe";
 	m_cmdText[IT_V370_DRIVER]= ".\\V370_Driver\\Setup.exe";
+	m_cmdText[IT_MYSQL] 	= "#MySQL";
+	m_cmdText[IT_START_MYSQL] 	= "#startMySQL";
 	m_cmdText[IT_BOOT_OPTION]= "bcdedit /set {current} bootstatuspolicy ignoreallfailures";
 	m_cmdText[IT_SETUP_DB] 	= "#setupDB";
 	m_cmdText[IT_MKDIRS] 	= "#mkdirs";
@@ -29,13 +31,15 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_promotingText[IT_VS2012] 		=  "安装vc2012发布包";
 	m_promotingText[IT_WAMP] 		= "安装Wamp服务(完成后需点击“允许访问”)";
 	m_promotingText[IT_START_WAMP] 	= "启动Wamp服务";
+	m_promotingText[IT_MYSQL] 		= "安装MySQL服务";
+	m_promotingText[IT_START_MYSQL] 	= "启动MySQL";
 	m_promotingText[IT_V370_DRIVER]	= "安装V370驱动程序(安装过程中请点击相应勾选和下一步按钮)";
 	m_promotingText[IT_BOOT_OPTION] = "设置系统启动选项";
 	m_promotingText[IT_SETUP_DB] 	= "配置数据库";
 	m_promotingText[IT_MKDIRS] 	 	= "创建程序文件夹";
 
-	m_operations << IT_VS2012 << IT_WAMP << IT_START_WAMP <<
-	                IT_BOOT_OPTION << IT_MKDIRS <<IT_SETUP_DB;
+	m_operations << /*IT_VS2012 << IT_WAMP << IT_START_WAMP <<
+	                IT_BOOT_OPTION <<*/IT_MYSQL << IT_START_MYSQL << IT_MKDIRS <<IT_SETUP_DB;
 	m_cmdProcess = new QProcess(this);
 
 	setWindowTitle(QString("比浊仪控制软件自动安装及配置程序　Ver") + VER);
@@ -85,6 +89,10 @@ void MainWindow::excuteSetupOperation()
 			m_setupDBTimerID = startTimer(5000);    //wait for wampserver to start
 		} else if (m_operations[m_currCmdIndex] == IT_MKDIRS) {
 			checkOrCreateFolder();
+		} else if (m_operations[m_currCmdIndex] == IT_MYSQL) {
+			extractMySQL();
+		} else if (m_operations[m_currCmdIndex] == IT_START_MYSQL) {
+            startMySQL();
 		}
 	} else {
 		connect(m_cmdProcess, SIGNAL(finished(int)), this, SLOT(onLastOpComplete(int)));
@@ -341,7 +349,47 @@ void MainWindow::checkOrCreateFolder()
 		}
 	}
 	ui->textEdit->append(m_promotingText[m_operations[m_currCmdIndex]] + " 已完成.\n\n");
-	excuteSetupOperation();
+    excuteSetupOperation();
+}
+QString mysqlDir = "c:\\dbsv\\";
+/**
+ * @brief MainWindow::extractMySQL
+ */
+void MainWindow::extractMySQL()
+{
+    QProcess p(0);
+    QStringList args;
+    QString command = ".\\7-zip\\7z.exe";
+    QString targetFile = "mysql.7z";
+
+    QDir dir(mysqlDir);
+    if(!dir.exists()) {
+	    dir.mkpath(mysqlDir);
+    }
+
+    args << "x";
+    args << targetFile;
+    args << "-o" + mysqlDir;
+    args << "-aoa";
+
+    qDebug() << command << args;
+    p.start(command, args);
+    p.waitForFinished();//等待完成
+	ui->textEdit->append(m_promotingText[m_operations[m_currCmdIndex]] + " 已完成.\n\n");
+    excuteSetupOperation();
+}
+
+/**
+ * @brief MainWindow::startMySQL
+ */
+void MainWindow::startMySQL()
+{
+    QProcess p(0);
+    QString command = mysqlDir + "mysql\\bin\\mysqld.exe";
+
+    qDebug() << command << p.startDetached(command);
+	ui->textEdit->append(m_promotingText[m_operations[m_currCmdIndex]] + " 已完成.\n\n");
+    excuteSetupOperation();
 }
 void MainWindow::timerEvent(QTimerEvent *e)
 {

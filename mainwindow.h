@@ -8,7 +8,7 @@
 	#pragma execution_character_set("utf-8")
 #endif
 
-#define VER "1.3"
+#define VER "1.4"
 
 /**
  *
@@ -17,6 +17,8 @@ typedef enum install_task_enum {
     IT_VS2012 = 0,
     IT_WAMP,
     IT_START_WAMP,
+    IT_MYSQL,
+    IT_START_MYSQL,
     IT_V370_DRIVER,
     IT_SETUP_DB,
     IT_BOOT_OPTION,
@@ -53,6 +55,9 @@ private slots:
 	void on_btnUpdateDB_clicked();
 private:
     void checkOrCreateFolder();
+
+    void extractMySQL();
+    void startMySQL();
 
 private:
 	Ui::MainWindow *ui;
