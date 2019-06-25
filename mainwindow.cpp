@@ -86,7 +86,7 @@ void MainWindow::excuteSetupOperation()
 	qDebug() << "IT option: Step " << m_currCmdIndex + 1 << command;
 	if (command.startsWith("#")) {
 		if (m_operations[m_currCmdIndex] == IT_SETUP_DB) {
-			m_setupDBTimerID = startTimer(5000);    //wait for wampserver to start
+			m_setupDBTimerID = startTimer(2000);    //wait for wampserver to start
 		} else if (m_operations[m_currCmdIndex] == IT_MKDIRS) {
 			checkOrCreateFolder();
 		} else if (m_operations[m_currCmdIndex] == IT_MYSQL) {
@@ -158,7 +158,7 @@ void MainWindow::on_btnCopyFiles_clicked()
 	ui->textEdit->append("启动Wamp服务...\n");
 	disconnect(m_cmdProcess, 0, 0, 0);
 	m_cmdProcess->start("cmd", QStringList()  << "/c"<< "start /b C:\\wamp\\wampmanager.exe");
-	m_setupDBTimerID = startTimer(5000);
+	m_setupDBTimerID = startTimer(3000);
 }
 
 void MainWindow::onCopyLibsFinished()
